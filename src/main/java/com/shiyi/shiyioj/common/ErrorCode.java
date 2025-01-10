@@ -1,11 +1,14 @@
 package com.shiyi.shiyioj.common;
 
+import lombok.Getter;
+
 /**
  * 自定义错误码
  *
  * @author <a href="https://github.com/lishiyi">程序员鱼皮</a>
  * @from <a href="https://shiyi.icu">编程导航知识星球</a>
  */
+@Getter
 public enum ErrorCode {
 
     SUCCESS(0, "ok"),
@@ -30,14 +33,6 @@ public enum ErrorCode {
     ErrorCode(int code, String message) {
         this.code = code;
         this.message = message;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
     }
 
 }
