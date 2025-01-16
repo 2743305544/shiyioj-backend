@@ -1,9 +1,10 @@
 package com.shiyi.shiyioj.model.vo;
 
-
-import cn.hutool.json.JSONConfig;
 import cn.hutool.json.JSONUtil;
-import com.google.gson.Gson;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.shiyi.shiyioj.model.dto.question.JudgeCase;
 import com.shiyi.shiyioj.model.dto.question.JudgeConfig;
 import com.shiyi.shiyioj.model.entity.Question;
 import lombok.AllArgsConstructor;
@@ -14,11 +15,10 @@ import org.springframework.beans.BeanUtils;
 import java.util.Date;
 import java.util.List;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuestionVo {
+public class QuestionAllVo {
     /**
      * id
      */
@@ -40,6 +40,11 @@ public class QuestionVo {
     private List<String> tags;
 
     /**
+     * 答案
+     */
+    private String answer;
+
+    /**
      * 题目提交数
      */
     private Integer submitNum;
@@ -48,6 +53,11 @@ public class QuestionVo {
      * 题目通过数
      */
     private Integer acceptNum;
+
+    /**
+     * 测试用例(json 数组)
+     */
+    private List<JudgeCase> judgeCase;
 
     /**
      * 评测配置 (json 对象)
@@ -79,31 +89,34 @@ public class QuestionVo {
      */
     private Date updateTime;
 
-    private UserVO userVO;
-
-    public static QuestionVo objToVo(Question question) {
+    public static QuestionAllVo objToVo(Question question) {
         if (question == null) {
             return null;
         }
-        QuestionVo questionVo = new QuestionVo();
+        QuestionAllVo questionVo = new QuestionAllVo();
         BeanUtils.copyProperties(question, questionVo);
         questionVo.setTags(JSONUtil.toList(question.getTags(), String.class));
         questionVo.setJudgeConfig(JSONUtil.toBean(question.getJudgeConfig(), JudgeConfig.class));
+        questionVo.setJudgeCase(JSONUtil.toList(question.getJudgeCase(), JudgeCase.class));
         return questionVo;
     }
-    public static Question voToObj(QuestionVo questionVo) {
-        if (questionVo == null) {
+    public static Question voToObj(QuestionAllVo questionAllVo) {
+        if (questionAllVo == null) {
             return null;
         }
         Question question = new Question();
-        BeanUtils.copyProperties(questionVo, question);
-        List<String> tags1 = questionVo.getTags();
+        BeanUtils.copyProperties(questionAllVo, question);
+        List<String> tags1 = questionAllVo.getTags();
         if(tags1 != null) {
             question.setTags(JSONUtil.toJsonStr(tags1));
         }
-        JudgeConfig judgeConfig1 = questionVo.getJudgeConfig();
+        JudgeConfig judgeConfig1 = questionAllVo.getJudgeConfig();
         if(judgeConfig1 != null) {
             question.setJudgeConfig(JSONUtil.toJsonStr(judgeConfig1));
+        }
+        List<JudgeCase> judgeCase1 = questionAllVo.getJudgeCase();
+        if(judgeCase1 != null) {
+            question.setJudgeCase(JSONUtil.toJsonStr(judgeCase1));
         }
         return question;
     }

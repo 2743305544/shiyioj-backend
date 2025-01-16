@@ -1,7 +1,9 @@
 package com.shiyi.shiyioj.common;
 
 import com.shiyi.shiyioj.constant.CommonConstant;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 分页请求
@@ -10,6 +12,8 @@ import lombok.Data;
  * @from <a href="https://shiyi.icu">编程导航知识星球</a>
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PageRequest {
 
     /**

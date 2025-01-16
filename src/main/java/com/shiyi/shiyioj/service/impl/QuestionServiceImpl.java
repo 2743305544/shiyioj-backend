@@ -12,6 +12,7 @@ import com.shiyi.shiyioj.exception.ThrowUtils;
 
 import com.shiyi.shiyioj.model.dto.question.QuestionQueryRequest;
 import com.shiyi.shiyioj.model.entity.*;
+import com.shiyi.shiyioj.model.vo.QuestionAllVo;
 import com.shiyi.shiyioj.model.vo.QuestionVo;
 import com.shiyi.shiyioj.model.vo.UserVO;
 import com.shiyi.shiyioj.service.QuestionService;
@@ -152,6 +153,19 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
             return questionVO;
         }).collect(Collectors.toList());
         questionVOPage.setRecords(questionVOList);
+        return questionVOPage;
+    }
+
+    @Override
+    public Page<QuestionAllVo> getQuestionAllVoPage(Page<Question> questionPage) {
+        List<Question> questionList = questionPage.getRecords();
+        Page<QuestionAllVo> questionVOPage = new Page<>(questionPage.getCurrent(), questionPage.getSize(), questionPage.getTotal());
+        if (CollUtil.isEmpty(questionList)) {
+            return questionVOPage;
+        }
+        // 将questionList中的数据转换为QuestionAllVo
+        List<QuestionAllVo> questionAllVoList = questionList.stream().map(QuestionAllVo::objToVo).toList();
+        questionVOPage.setRecords(questionAllVoList);
         return questionVOPage;
     }
 

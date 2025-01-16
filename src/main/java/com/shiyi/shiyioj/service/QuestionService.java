@@ -6,6 +6,7 @@ import com.shiyi.shiyioj.model.dto.question.QuestionQueryRequest;
 import com.shiyi.shiyioj.model.entity.Question;
 import com.shiyi.shiyioj.model.entity.Question;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.shiyi.shiyioj.model.vo.QuestionAllVo;
 import com.shiyi.shiyioj.model.vo.QuestionVo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,4 +51,6 @@ public interface QuestionService extends IService<Question> {
      * @return
      */
     Page<QuestionVo> getQuestionVoPage(Page<Question> questionPage, HttpServletRequest request);
+
+    Page<QuestionAllVo> getQuestionAllVoPage(Page<Question> questionPage);
 }

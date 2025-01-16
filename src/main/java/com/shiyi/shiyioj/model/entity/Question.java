@@ -4,10 +4,14 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.io.Serializable;
 import java.util.Date;
 
 import com.shiyi.shiyioj.model.dto.question.JudgeConfig;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 帖子
@@ -15,7 +19,9 @@ import lombok.Data;
  */
 @TableName(value ="question")
 @Data
-public class Question {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Question implements Serializable {
     /**
      * id
      */
@@ -92,4 +98,6 @@ public class Question {
      */
     @TableLogic
     private Integer isDelete;
+
+    private static final long serialVersionUID = 1L;
 }

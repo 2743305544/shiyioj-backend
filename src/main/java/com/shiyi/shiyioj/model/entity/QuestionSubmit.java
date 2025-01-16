@@ -26,7 +26,7 @@ public class QuestionSubmit {
     /**
      * 题目 id
      */
-    private Integer questionId;
+    private Long questionId;
 
     /**
      * 代码
