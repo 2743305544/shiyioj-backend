@@ -4,6 +4,9 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.shiyi.shiyioj.config.JsonSerializeConfig;
 import com.shiyi.shiyioj.model.dto.question.JudgeCase;
 import com.shiyi.shiyioj.model.dto.question.JudgeConfig;
 import com.shiyi.shiyioj.model.entity.Question;
@@ -12,13 +15,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuestionAllVo {
+public class QuestionAllVo implements Serializable {
     /**
      * id
      */
@@ -82,11 +86,13 @@ public class QuestionAllVo {
     /**
      * 创建时间
      */
+    @JsonSerialize(using = JsonSerializeConfig.CustomDateSerializer.class)
     private Date createTime;
 
     /**
      * 更新时间
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date updateTime;
 
     public static QuestionAllVo objToVo(Question question) {
