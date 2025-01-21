@@ -3,7 +3,10 @@ package com.shiyi.shiyioj.model.vo;
 
 import cn.hutool.json.JSONConfig;
 import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import com.google.gson.Gson;
+import com.shiyi.shiyioj.config.JsonSerializeConfig;
 import com.shiyi.shiyioj.model.dto.question.JudgeConfig;
 import com.shiyi.shiyioj.model.entity.Question;
 import lombok.AllArgsConstructor;
@@ -72,6 +75,7 @@ public class QuestionVo {
     /**
      * 创建时间
      */
+    @JsonSerialize(using = JsonSerializeConfig.CustomDateSerializer.class)
     private Date createTime;
 
     /**

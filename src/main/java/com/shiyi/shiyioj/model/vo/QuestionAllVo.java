@@ -92,7 +92,7 @@ public class QuestionAllVo implements Serializable {
     /**
      * 更新时间
      */
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = JsonSerializeConfig.CustomDateSerializer.class)
     private Date updateTime;
 
     public static QuestionAllVo objToVo(Question question) {
