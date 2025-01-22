@@ -16,11 +16,13 @@ import com.shiyi.shiyioj.model.vo.QuestionAllVo;
 import com.shiyi.shiyioj.model.vo.QuestionVo;
 import com.shiyi.shiyioj.model.vo.UserVO;
 import com.shiyi.shiyioj.service.QuestionService;
+import com.shiyi.shiyioj.service.QuestionSubmitService;
 import com.shiyi.shiyioj.service.UserService;
 import com.shiyi.shiyioj.utils.SqlUtils;
 import com.shiyi.shiyioj.mapper.QuestionMapper;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,10 @@ import java.util.stream.Collectors;
 @Service
 public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
     implements QuestionService {
+
+    @Lazy
+    @Resource
+    private QuestionSubmitService questionSubmitService;
 
     @Resource
     private UserService userService;
@@ -152,7 +158,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
             questionVO.setUserVO(userService.getUserVO(user));
             return questionVO;
         }).collect(Collectors.toList());
-        questionVOPage.setRecords(questionVOList);
+        List<QuestionVo> list = questionVOList.stream().map(questionVo -> questionVo
+                .setSubmitNum(Math.toIntExact(questionSubmitService.getQuestionSubmitCount(questionVo.getId())))
+                .setAcceptNum(Math.toIntExact(questionSubmitService.getQuestionAcceptCount(questionVo.getId())))).toList();
+        questionVOPage.setRecords(list);
         return questionVOPage;
     }
 
@@ -165,7 +174,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         }
         // 将questionList中的数据转换为QuestionAllVo
         List<QuestionAllVo> questionAllVoList = questionList.stream().map(QuestionAllVo::objToVo).toList();
-        questionVOPage.setRecords(questionAllVoList);
+        List<QuestionAllVo> list = questionAllVoList.stream().map(questionAllVo -> questionAllVo
+                .setSubmitNum(Math.toIntExact(questionSubmitService.getQuestionSubmitCount(questionAllVo.getId())))
+                .setAcceptNum(Math.toIntExact(questionSubmitService.getQuestionAcceptCount(questionAllVo.getId())))).toList();
+        questionVOPage.setRecords(list);
         return questionVOPage;
     }
 

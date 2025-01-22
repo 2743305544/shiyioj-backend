@@ -5,6 +5,8 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.shiyi.shiyioj.config.JsonSerializeConfig;
 import com.shiyi.shiyioj.model.dto.question.JudgeConfig;
 import com.shiyi.shiyioj.model.dto.questionsubmit.JudgeInfo;
 import com.shiyi.shiyioj.model.entity.Question;
@@ -35,7 +37,7 @@ public class QuestionSubmitVo {
     /**
      * 题目 id
      */
-    private Integer questionId;
+    private Long questionId;
 
     /**
      * 代码
@@ -60,11 +62,13 @@ public class QuestionSubmitVo {
     /**
      * 创建时间
      */
+    @JsonSerialize(using = JsonSerializeConfig.CustomDateSerializer.class)
     private Date createTime;
 
     /**
      * 更新时间
      */
+    @JsonSerialize(using = JsonSerializeConfig.CustomDateSerializer.class)
     private Date updateTime;
 
     /**

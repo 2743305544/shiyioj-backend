@@ -1,6 +1,7 @@
 package com.shiyi.shiyioj.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -192,6 +193,16 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         questionSubmitVOPage.setRecords(list);
 //        questionSubmitVOPage.setRecords(questionSubmitVOList);
         return questionSubmitVOPage;
+    }
+
+    @Override
+    public long getQuestionSubmitCount(long questionId) {
+        return count(new LambdaQueryWrapper<QuestionSubmit>().eq(QuestionSubmit::getQuestionId, questionId));
+    }
+
+    @Override
+    public long getQuestionAcceptCount(long questionId) {
+        return count(new LambdaQueryWrapper<QuestionSubmit>().eq(QuestionSubmit::getQuestionId, questionId).eq(QuestionSubmit::getStatus, 2));
     }
 }
 
