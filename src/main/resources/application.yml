@@ -116,3 +116,8 @@ sa-token:
   token-style: uuid
   # 是否输出操作日志
   is-log: true
+
+
+# 代码沙箱配置
+codesandbox:
+  type: example

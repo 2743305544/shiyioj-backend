@@ -1,6 +1,7 @@
 package com.shiyi.shiyioj.model.dto.questionsubmit;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,15 +11,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class JudgeInfo {
     /**
-     * 程序执行信息，单位为毫秒
+     * 程序执行信息
      */
     private String message;
     /**
      * 消耗的内存，单位为KB
      */
-    private Long memoryLimit;
+    private Long memory;
     /**
      * 消耗时间，单位为KB
      */

@@ -11,9 +11,11 @@ import com.shiyi.shiyioj.model.LogModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 import org.springframework.web.context.request.RequestAttributes;
@@ -62,6 +64,7 @@ public class LogInterceptor {
 //    }
     private final HttpServletRequest request;
 
+    private static final Logger logger = LoggerFactory.getLogger(LogInterceptor.class);
     /**
      * 监听使用了RestController注解的类
      *

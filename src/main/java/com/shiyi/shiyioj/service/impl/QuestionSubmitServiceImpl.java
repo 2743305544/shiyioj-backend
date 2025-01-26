@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.shiyioj.common.ErrorCode;
 import com.shiyi.shiyioj.constant.CommonConstant;
 import com.shiyi.shiyioj.exception.BusinessException;
+import com.shiyi.shiyioj.judge.JudgeService;
 import com.shiyi.shiyioj.mapper.QuestionSubmitMapper;
 import com.shiyi.shiyioj.model.dto.question.QuestionQueryRequest;
 import com.shiyi.shiyioj.model.dto.questionsubmit.QuestionSubmitAddRequest;
@@ -29,6 +30,7 @@ import com.shiyi.shiyioj.service.UserService;
 import com.shiyi.shiyioj.utils.SqlUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 /**
@@ -52,6 +55,13 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private ThreadPoolExecutor threadPoolExecutor;
+
+    @Lazy
+    @Resource
+    private JudgeService judgeService;
 
     /**
      * 提交题目
@@ -86,7 +96,12 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if(!result){
             throw new BusinessException(ErrorCode.SYSTEM_ERROR,"提交失败");
         }
-        return questionSubmit.getId();
+        Long id = questionSubmit.getId();
+        // todo 判题
+        threadPoolExecutor.execute(()->{
+            judgeService.doJudge(id);
+        });
+        return id;
     }
 
     /**
