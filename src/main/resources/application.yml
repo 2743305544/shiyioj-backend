@@ -1,12 +1,10 @@
-# 公共配置文件
-# @author <a href="https://github.com/lishiyi">程序员鱼皮</a>
-# @from <a href="https://shiyi.icu">编程导航知识星球</a>
+
 spring:
   application:
     name: shiyioj-backend
   # 默认 dev 环境
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
   # 支持 swagger3
   mvc:
     pathmatch:
@@ -117,7 +115,9 @@ sa-token:
   # 是否输出操作日志
   is-log: true
 
-
 # 代码沙箱配置
 codesandbox:
   type: example
+  url: http://localhost:8090
+  docker:
+    enable: false

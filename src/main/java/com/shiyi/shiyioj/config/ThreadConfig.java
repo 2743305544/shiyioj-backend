@@ -10,11 +10,11 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class ThreadConfig {
     static final int cores = Runtime.getRuntime().availableProcessors();
-    static final int corePoolSize = cores;
-    static final int maximumPoolSize = cores * 2;
+    static final int corePoolSize = 1;
+    static final int maximumPoolSize = 1;
     static final long keepAliveTime = 60;
     static final TimeUnit unit = TimeUnit.SECONDS;
-    static final int queueCapacity = 1000;
+    static final int queueCapacity = 1000000;
     @Bean
     public ThreadPoolExecutor threadPoolExecutor() {
         return new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, new LinkedBlockingQueue<>(queueCapacity));

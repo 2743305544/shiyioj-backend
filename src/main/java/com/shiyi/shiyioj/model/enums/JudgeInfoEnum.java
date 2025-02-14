@@ -9,8 +9,7 @@ import java.util.stream.Collectors;
 /**
  * 判题信息枚举
  *
- * @author <a href="https://github.com/lishiyi">程序员鱼皮</a>
- * @from <a href="https://shiyi.icu">编程导航知识星球</a>
+ *  
  */
 public enum JudgeInfoEnum {
 

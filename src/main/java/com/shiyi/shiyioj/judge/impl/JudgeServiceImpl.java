@@ -14,6 +14,7 @@ import com.shiyi.shiyioj.judge.strategy.JudgeStrategy;
 import com.shiyi.shiyioj.judge.strategy.ipml.DefaultJudgeStrategy;
 import com.shiyi.shiyioj.judge.strategy.ipml.JavaJudgeStrategy;
 import com.shiyi.shiyioj.model.dto.question.JudgeCase;
+import com.shiyi.shiyioj.model.dto.question.JudgeConfig;
 import com.shiyi.shiyioj.model.dto.questionsubmit.JudgeInfo;
 import com.shiyi.shiyioj.model.entity.Question;
 import com.shiyi.shiyioj.model.entity.QuestionSubmit;
@@ -41,6 +42,9 @@ public class JudgeServiceImpl implements JudgeService {
     @Resource
     private JudgeManager judgeManager;
 
+    @Resource
+    private CodeSandboxFactory codeSandboxFactory;
+
     @Override
     public QuestionSubmit doJudge(long submitId) {
         QuestionSubmit questionSubmit = questionSubmitService.getById(submitId);
@@ -63,13 +67,15 @@ public class JudgeServiceImpl implements JudgeService {
         if(!update){
             throw new BusinessException(ErrorCode.OPERATION_ERROR,"更新失败");
         }
-        CodeSandbox codeSandbox = CodeSandboxFactory.createCodeSandbox(codeSandboxType);
+        CodeSandbox codeSandbox = codeSandboxFactory.createCodeSandbox(codeSandboxType);
         String language = questionSubmit.getLanguage();
         String code = questionSubmit.getCode();
         String judgeCase = question.getJudgeCase();
+        Integer timeLimit = JSONUtil.toBean(question.getJudgeConfig(), JudgeConfig.class).getTimeLimit();
         List<JudgeCase> list = JSONUtil.toList(judgeCase, JudgeCase.class);
         List<String> inputs = list.stream().map(JudgeCase::getInput).toList();
         ExecuteCodeRequest build = ExecuteCodeRequest.builder()
+                .time(timeLimit)
                 .code(code)
                 .language(language)
                 .inputList(inputs)

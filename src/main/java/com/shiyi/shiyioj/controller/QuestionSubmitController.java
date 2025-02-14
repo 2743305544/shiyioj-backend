@@ -9,6 +9,9 @@ import com.shiyi.shiyioj.common.ResultUtils;
 import com.shiyi.shiyioj.constant.UserConstant;
 import com.shiyi.shiyioj.exception.BusinessException;
 
+import com.shiyi.shiyioj.judge.codesandbox.impl.ExampleCodeSandbox;
+import com.shiyi.shiyioj.judge.codesandbox.model.ExecuteCodeRequest;
+import com.shiyi.shiyioj.judge.codesandbox.model.ExecuteCodeResponse;
 import com.shiyi.shiyioj.model.dto.question.QuestionQueryRequest;
 import com.shiyi.shiyioj.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.shiyi.shiyioj.model.dto.questionsubmit.QuestionSubmitQueryRequest;
@@ -21,19 +24,16 @@ import com.shiyi.shiyioj.service.QuestionSubmitService;
 import com.shiyi.shiyioj.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 题目提交接口
  *
- * @author <a href="https://github.com/lishiyi">程序员鱼皮</a>
- * @from <a href="https://shiyi.icu">编程导航知识星球</a>
+ *  
  */
 @RestController
 @RequestMapping("/question_submit")
@@ -81,5 +81,30 @@ public class QuestionSubmitController {
         final User loginUser = userService.getLoginUser(request);
         return ResultUtils.success(questionSubmitService.getQuestionSubmitVoPage(questionPage, loginUser));
     }
+
+//    @GetMapping("/test")
+//    public void test() {
+//        String code = """
+//                import java.io.PrintStream;
+//                import java.nio.charset.StandardCharsets;
+//                import java.util.Scanner;
+//
+//                public class Main
+//                {
+//                            public static void main(String args[]) throws Exception
+//                            {
+//                                    Scanner cin=new Scanner(System.in);
+//                                    int a=cin.nextInt(),b=cin.nextInt();
+//                //                    System.out.println("结果:"+a+b);
+//                                System.out.println("中文" + args[0]);
+//                            }
+//                }
+//                """;
+//        String language = "java";
+//        List<String> inputList = List.of("1 2", "2 3");
+//        ExecuteCodeRequest request = new ExecuteCodeRequest(inputList, language, code,1000);
+//        ExecuteCodeResponse executeCodeResponse = codeSandbox.executeCode(request);
+//        System.out.println(executeCodeResponse);
+//    }
 
 }
