@@ -1,10 +1,10 @@
-```markdown
+
 # Online Judge System (Backend)
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yourusername/oj-system-backend/blob/main/LICENSE)
 
 一个基于 Spring Boot 的在线判题系统后端，提供题目管理、代码提交和用户认证等功能。
-
+## 由于SpringCloud版本因为某种原因请求请求会跳过网关的跨域配置直接请求子服务，而导致无法正常给前端响应，无法正常投入应用，故不发布SpringCloud版本（在同源情况下，可以正常工作）。
 ## 功能特性
 
 ### 题目管理
