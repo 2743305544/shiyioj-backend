@@ -31,6 +31,16 @@ public class DefaultJudgeStrategy implements JudgeStrategy {
                 .memory((long) memory)
                 .time((long) time)
                 .build();
+        if (judgeContext.getStatus() == -1){
+            judgeInfoEnum = JudgeInfoEnum.DANGEROUS_OPERATION;
+            judgeInfoRes.setMessage(judgeInfoEnum.getValue());
+            return judgeInfoRes;
+        }
+        if (judgeContext.getStatus() == 2){
+            judgeInfoEnum = JudgeInfoEnum.COMPILE_ERROR;
+            judgeInfoRes.setMessage(judgeInfoEnum.getValue());
+            return judgeInfoRes;
+        }
         if(outputList.size() != inputs.size()){
             if(outputList.size() >= inputs.size()){
                 judgeInfoEnum = JudgeInfoEnum.OUTPUT_LIMIT_EXCEEDED;

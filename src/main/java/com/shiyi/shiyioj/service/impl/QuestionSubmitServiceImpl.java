@@ -1,6 +1,7 @@
 package com.shiyi.shiyioj.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -12,6 +13,7 @@ import com.shiyi.shiyioj.exception.BusinessException;
 import com.shiyi.shiyioj.judge.JudgeService;
 import com.shiyi.shiyioj.mapper.QuestionSubmitMapper;
 import com.shiyi.shiyioj.model.dto.question.QuestionQueryRequest;
+import com.shiyi.shiyioj.model.dto.questionsubmit.JudgeInfo;
 import com.shiyi.shiyioj.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.shiyi.shiyioj.model.dto.questionsubmit.QuestionSubmitQueryRequest;
 import com.shiyi.shiyioj.model.entity.Question;
@@ -168,6 +170,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         queryWrapper.eq(QuestionSubmitEnum.getEnumByValue(status) != null, "status", status);
         queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
                 sortField);
+        queryWrapper.orderByDesc("createTime");
         return queryWrapper;
     }
 
@@ -217,7 +220,8 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
 
     @Override
     public long getQuestionAcceptCount(long questionId) {
-        return count(new LambdaQueryWrapper<QuestionSubmit>().eq(QuestionSubmit::getQuestionId, questionId).eq(QuestionSubmit::getStatus, 2));
+        List<QuestionSubmit> list = list(new LambdaQueryWrapper<QuestionSubmit>().eq(QuestionSubmit::getQuestionId, questionId));
+        return list.stream().filter(questionSubmit -> JudgeInfoEnum.ACCEPTED.getValue().equals(JSONUtil.toBean(questionSubmit.getJudgeInfo(), JudgeInfo.class).getMessage())).count();
     }
 }
 

@@ -83,6 +83,7 @@ public class JudgeServiceImpl implements JudgeService {
         ExecuteCodeResponse executeCodeResponse = codeSandbox.executeCode(build);
         List<String> outputList = executeCodeResponse.getOutputList();
         JudgeContext judgeContext = JudgeContext.builder()
+                .status(executeCodeResponse.getStatus())
                 .question(question)
                 .judgeCase(list)
                 .outputs(outputList)

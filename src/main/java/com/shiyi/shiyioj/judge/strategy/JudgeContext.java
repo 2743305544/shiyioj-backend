@@ -19,4 +19,5 @@ public class JudgeContext {
     private Question question;
     private List<JudgeCase> judgeCase;
     private QuestionSubmit questionSubmit;
+    private Integer status;
 }
