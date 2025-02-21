@@ -80,6 +80,10 @@ src/main/java
 │   ├── config          # 配置类
 │   └── exception       # 自定义异常处理
 ```
+### 相关项目
+- [ShiYi Online Judge System (Frontend)](https://github.com/2743305544/shiyioj-frontend)
+- [JavaCodeSandbox](https://github.com/2743305544/JavaCodeSandbox)
+
 
 ## 接口文档
 访问 Swagger UI：  
